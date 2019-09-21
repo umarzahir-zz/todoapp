@@ -2,12 +2,15 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
+const api = require('./api')
 
 const port = 5000
 
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded())
+app.use('/api', api)
+
 
 
 const dbUrl = "mongodb+srv://umar:khan@firstcluster-yfopq.mongodb.net/test?retryWrites=true&w=majority"
