@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {MDBBtn, MDBInput,MDBCol,MDBRow} from 'mdbreact'
+import {MDBBtn, MDBInput,MDBCol,MDBRow, MDBContainer} from 'mdbreact'
 import ShowTodo from './showTodo';
 
 class todo extends Component {
@@ -16,13 +16,17 @@ class todo extends Component {
     render() {
         const {mytodos} = this.state
         return (
-            <div className="container">
+            
+                <MDBContainer>
                 <MDBRow>
                <MDBCol size="8"> <MDBInput onChange={this.handleChange} ></MDBInput></MDBCol>
                <MDBCol><MDBBtn onClick={this.handleClick} color="info" size="lg">todo</MDBBtn> </MDBCol> 
                 </MDBRow>
-                <ShowTodo todos={mytodos}/>
-            </div>
+                <MDBRow>
+                   <MDBCol><ShowTodo todos={mytodos}/></MDBCol> 
+                    </MDBRow> 
+                    </MDBContainer>
+            
         )
     }
 }
