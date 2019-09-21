@@ -7,18 +7,20 @@ class showTodo extends Component {
         console.log("delete")
     }
     render() {
+        console.log("data",this.props.todos)
         const todoName = this.props.todos
+        console.log(todoName.data)
         return (
             <div className="container ">
-                {todoName.map((todo) => {
+                {todoName.data ? todoName.data.map((todo) => {
                     return(
-                        <div className="btn-group " key={todo.name}  role="group" aria-label="Basic example">
-  <button type="button" class="btn btn-secondary">X</button>
-  <button type="button" class="btn btn-secondary">{todo.name}</button>
-  <button type="button" class="btn btn-secondary">E</button>
+                        <div className="btn-group " key={todo.todo}  role="group" aria-label="Basic example">
+  <button type="button" className="btn btn-secondary">X</button>
+  <button type="button" className="btn btn-secondary">{todo.todo}</button>
+  <button type="button" className="btn btn-secondary">E</button>
 </div>
                      )
-                })}
+                }): <p>Loading Data .....</p>}
                 
             </div>
         )
