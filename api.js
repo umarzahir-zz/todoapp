@@ -41,7 +41,8 @@ Router.delete("/deletelist", (req, res)=> {
     .catch((err)=> res.status(400).json(err))
 })
 
-Router.delete("/deletelist", (req, res)=> {
+Router.delete("/deletetodo", (req, res)=> {
+    console.log("id:::",req.body.id)
     todoSchema.deleteOne({_id: req.body.id, })
     .then((doc)=> res.status(200).json(doc))
     .catch((err)=> res.status(400).json(err))

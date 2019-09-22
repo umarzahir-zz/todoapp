@@ -14,6 +14,10 @@ class todo extends Component {
         const todoobj = {name: this.state.currentTodo}
         this.setState({mytodos: [...this.state.mytodos, todoobj ]})
     }
+
+     handleDelete = (todo) => {
+        axios.delete("http://localhost:5000/api/deletetodo",{ data: {id: todo}})
+     }
     
     componentDidMount =  () => {
       console.log("mount")
@@ -36,7 +40,7 @@ class todo extends Component {
                <MDBCol><MDBBtn onClick={this.handleClick} color="info" size="lg">todo</MDBBtn> </MDBCol> 
                 </MDBRow>
                 <MDBRow>
-                   <MDBCol><ShowTodo todos={this.state.allTodos}/></MDBCol> 
+                   <MDBCol><ShowTodo handleDeletepr={this.handleDelete} todos={this.state.allTodos}/></MDBCol> 
                     </MDBRow> 
                     </MDBContainer>
             
