@@ -4,7 +4,7 @@ import ShowTodo from './showTodo';
 import axios from 'axios'
 
 class todo extends Component {
-    state = {mytodos: [], currentTodo: null, allTodos: [] }
+    state = {mytodos: [], isUpdate: false ,currentTodo: null, allTodos: [] }
     handleChange = (event) =>{
         console.log(event.target.value)
         this.setState({ currentTodo: event.target.value})
@@ -12,11 +12,16 @@ class todo extends Component {
     handleClick = () => {
         console.log(this.state.currentTodo)
         const todoobj = {name: this.state.currentTodo}
-        this.setState({mytodos: [...this.state.mytodos, todoobj ]})
+    //    await this.setState({mytodos: [...this.state.mytodos, todoobj ]})
+        axios.post("http://localhost:5000/api/newtodo", {todo: this.state.currentTodo})
+        .then(()=> this.setState({isUpdate: true})
+        )
     }
 
      handleDelete = (todo) => {
         axios.delete("http://localhost:5000/api/deletetodo",{ data: {id: todo}})
+        .then(() => this.setState({isUpdate: true})
+        )
      }
     
     componentDidMount =  () => {
@@ -28,6 +33,22 @@ class todo extends Component {
             allTodos: data
         }) }
         )
+    }
+
+    componentDidUpdate = () => {
+
+        if(this.state.isUpdate)
+        {
+            axios.get("http://localhost:5000/api/alltodos")
+            .then(data => {
+                console.log(data)
+                this.setState({
+                allTodos: data,
+                isUpdate: false
+
+            }) }
+            )
+        }
     }
     
     render() {

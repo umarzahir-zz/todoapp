@@ -4,6 +4,7 @@ const todoSchema = require('./todoSchema')
 
 //new todo api
 Router.post("/newtodo", (req, res) => {
+    console.log("post todo:::", req.body.todo)
     const newtodo = new todoSchema({
         todo: req.body.todo
     })
