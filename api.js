@@ -17,6 +17,7 @@ Router.put("/newlist",(req, res)=>{
     const newList =({
         title : req.body.title,
         isMarked: req.body.isMarked,
+        dueDate: req.body.dD
     })
     todoSchema.updateOne({_id: req.body.id }, {
         $push: {"list": newList}

@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { MDBBtn } from 'mdbreact';
-import axios from 'axios'
+
 import Popovertodo from './popovertodo'
+import  List  from './list';
 
 class showTodo extends Component {
-
+state = { id: null, selected: null, isShow: false }
     handleclick = () => {
         console.log("delete")
     }
@@ -20,6 +21,10 @@ class showTodo extends Component {
     handleEdit = (id) => {
         this.props.handleEditpr(id)
     }
+    handleShow = (id,todo) => {
+        this.setState({ id: id, isShow: !this.state.isShow ,selected: todo})
+        
+    }
     render() {
         const todoName = this.props.todos
         return (
@@ -29,13 +34,13 @@ class showTodo extends Component {
                         <div className="btn-group " key={todo._id}  role="group" aria-label="Basic example">
                             
   <button type="button" onClick={()=>this.handleDelete(todo._id)} className="btn btn-secondary">X</button>
-  <button type="button" className="btn btn-secondary">{todo.todo}</button>
+  <button type="button" className="btn btn-secondary" onClick={()=>this.handleShow(todo._id,todo.todo)} >{todo.todo}</button>
   {/* <button type="button" className="btn btn-secondary" onClick={()=>this.handleEdit(todo._id)} >E</button> */}
   <Popovertodo name={todo.todo} id={todo._id} hd={this.handleUpdate}/>
 </div>
                      )
                 }): <p>Loading Data .....</p>}
-                
+               {this.state.isShow ? <List id={this.state.id} sel={this.state.selected} /> : null}
             </div>
         )
     }
