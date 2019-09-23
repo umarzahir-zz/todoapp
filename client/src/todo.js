@@ -32,9 +32,17 @@ class todo extends Component {
             this.setState({
             allTodos: data
         }) }
-        )
+        ).catch(err => console.log("errrr",err))
     }
-
+    handleUpdate = (id,utodo)=> {
+        console.log(id,utodo)
+     axios.put("http://localhost:5000/api/updatetodo",{ id: id, utodo: utodo})
+     .then(()=> this.setState({isUpdate: true})
+     )
+    }
+handleEdit = (id) => {
+    axios.put("http://localhost:5000/api/updatetodo",{ data:  {id: id}})
+}
     componentDidUpdate = () => {
 
         if(this.state.isUpdate)
@@ -47,7 +55,7 @@ class todo extends Component {
                 isUpdate: false
 
             }) }
-            )
+            ).catch(err => console.log("update comp err", err))
         }
     }
     
@@ -56,12 +64,13 @@ class todo extends Component {
         return (
             
                 <MDBContainer>
+                   { this.state.isUpdate ? <p>....</p> : null }
                 <MDBRow>
                <MDBCol size="8"> <MDBInput onChange={this.handleChange} ></MDBInput></MDBCol>
                <MDBCol><MDBBtn onClick={this.handleClick} color="info" size="lg">todo</MDBBtn> </MDBCol> 
                 </MDBRow>
                 <MDBRow>
-                   <MDBCol><ShowTodo handleDeletepr={this.handleDelete} todos={this.state.allTodos}/></MDBCol> 
+                   <MDBCol><ShowTodo handled={this.handleUpdate} handleEditpr={this.handleEdit} handleDeletepr={this.handleDelete} todos={this.state.allTodos}/></MDBCol> 
                     </MDBRow> 
                     </MDBContainer>
             

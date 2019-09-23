@@ -50,8 +50,9 @@ Router.delete("/deletetodo", (req, res)=> {
 })
 
 Router.put("/updatetodo",(req, res)=> {
+    console.log("update todo", req.body)
     todoSchema.updateOne({_id: req.body.id} ,
-        {todo: req.body.updatetodo})
+        {todo: req.body.utodo})
         .then((doc)=> res.status(200).json(doc))
         .catch((err)=> res.status(400).json(err))
 })
