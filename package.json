@@ -18,6 +18,7 @@
     "express": "^4.17.1",
     "mdbreact": "^4.20.0",
     "mongoose": "^5.7.1",
-    "nodemon": "^1.19.2"
+    "nodemon": "^1.19.2",
+    "uniqid": "^5.0.3"
   }
 }

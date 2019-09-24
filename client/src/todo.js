@@ -64,13 +64,15 @@ handleEdit = (id) => {
         return (
             
                 <MDBContainer>
+                  { this.state.isUpdate ? <div id="cover-spin"></div> : null }
                    { this.state.isUpdate ? <p>....</p> : null }
                 <MDBRow>
                <MDBCol size="8"> <MDBInput onChange={this.handleChange} ></MDBInput></MDBCol>
                <MDBCol><MDBBtn onClick={this.handleClick} color="info" size="lg">todo</MDBBtn> </MDBCol> 
                 </MDBRow>
                 <MDBRow>
-                   <MDBCol><ShowTodo handled={this.handleUpdate} handleEditpr={this.handleEdit} handleDeletepr={this.handleDelete} todos={this.state.allTodos}/></MDBCol> 
+                    <p>{console.log("chk props",this.state.isUpdate)}</p>
+                   <MDBCol><ShowTodo  update={this.state.isUpdate} handled={this.handleUpdate} handleEditpr={this.handleEdit} handleDeletepr={this.handleDelete} todos={this.state.allTodos}/></MDBCol> 
                     </MDBRow> 
                     </MDBContainer>
             

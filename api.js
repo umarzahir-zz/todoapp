@@ -1,5 +1,6 @@
 const Router = require('express').Router()
 const todoSchema = require('./todoSchema')
+const uniqid = require('uniqid');
 
 
 //new todo api
@@ -15,6 +16,7 @@ Router.post("/newtodo", (req, res) => {
 
 Router.put("/newlist",(req, res)=>{
     const newList =({
+        _id: uniqid(),
         title : req.body.title,
         isMarked: req.body.isMarked,
         dueDate: req.body.dD
@@ -35,8 +37,9 @@ Router.put("/updatelist",(req,res)=> {
 })
 
 Router.delete("/deletelist", (req, res)=> {
-    todoSchema.findOneAndUpdate({'list.title': req.body.title},{
-        $pull: { list: {title: req.body.title} },
+    console.log(req.body.id)
+    todoSchema.findOneAndUpdate({ 'list._id': req.body.id},{
+        $pull: { list: {_id: req.body.id} },
        
     }, {new: true})
     .then((doc)=> res.status(200).json(doc))

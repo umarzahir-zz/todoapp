@@ -29,6 +29,7 @@ state = { id: null, selected: null, isShow: false }
         const todoName = this.props.todos
         return (
             <div className="container ">
+               
                 {todoName.data ? todoName.data.map((todo) => {
                     return(
                         <div className="btn-group " key={todo._id}  role="group" aria-label="Basic example">
@@ -39,8 +40,8 @@ state = { id: null, selected: null, isShow: false }
   <Popovertodo name={todo.todo} id={todo._id} hd={this.handleUpdate}/>
 </div>
                      )
-                }): <p>Loading Data .....</p>}
-               {this.state.isShow ? <List id={this.state.id} sel={this.state.selected} /> : null}
+                }): <div id="cover-spin"></div>}
+               {this.state.isShow ? <List upateList={this.props.update} id={this.state.id} sel={this.state.selected} /> : null}
             </div>
         )
     }

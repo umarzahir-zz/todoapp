@@ -3,11 +3,11 @@ import axios from 'axios'
 import DatePicker from "react-datepicker";
 import {MDBBadge, MDBBtn} from 'mdbreact'
 import "react-datepicker/dist/react-datepicker.css";
+import SpinnerPage from './spineer';
 export class list extends Component {
-    state= {newList: null,startDate: new Date(),isUpdate: false, listArray: [], isRadio: false}
+    state= {newList: "",startDate: new Date(),isUpdate: false, listArray: [], isRadio: false}
     handlechange = (event) => {
         this.setState({newList: event.target.value})
-        
     }
     handleDateChange = (date) => {
         this.setState({
@@ -15,19 +15,18 @@ export class list extends Component {
           });
     }
     componentDidMount = () => {
-        
+        console.log(this.props.updateList)
         axios.get("http://localhost:5000/api/alltodos")
         .then(data => {
             console.log(data.data[0].list)
             this.setState({
             listArray: data.data[0].list,
-           
-
         }) }
         ).catch(err => console.log("update comp err", err)) 
     }
     componentDidUpdate = () => {
-        if(this.state.isUpdate) {
+        console.log("in update",this.props.updateList)
+        if(this.state.isUpdate || this.props.updateList) {
             axios.get("http://localhost:5000/api/alltodos")
             .then(data => {
                 console.log(data.data[0].list)
@@ -38,10 +37,12 @@ export class list extends Component {
             ).catch(err => console.log("update comp err", err)) }
         
         }
-    }
-    handleDel = (id) => {
-        console.log(id)
-        axios.delete("http://localhost:5000/api/newlist", {data: {id: id}})
+         handleEdit = () => {
+
+         }
+    
+    handleDel = (id,title) => {
+        axios.delete("http://localhost:5000/api/deletelist", {data: {id : id, title: title}})
         .then(()=> {
             this.setState({isUpdate: true})})
                         }
@@ -49,21 +50,25 @@ export class list extends Component {
     handleClick = () => {
         axios.put("http://localhost:5000/api/newlist", {id: this.props.id , title: this.state.newList, isMarked: false, dD: this.state.startDate})
         .then( () => {
+            this.setState({isPost: true})
+            
             axios.get("http://localhost:5000/api/alltodos")
             .then(data => {
                 console.log(data.data[0].list)
                 this.setState({
                 listArray: data.data[0].list,
+                isPost: false
             }) }
             ).catch(err => console.log("update comp err", err)) }
         
         ).catch(err => console.log("error: ", err))
-    }
+    };
     render() {
         return (
             <div className="container">
-                <h2>{this.props.sel}</h2>
-                <input placeholder="new todo" value={this.state.bewList} onChange={this.handlechange}></input>
+                {this.state.isUpdate ?  <div id="cover-spin"></div> : null}
+                <h2>{this.props.sel}</h2> 
+                <input placeholder="new todo" value={this.state.newList} onChange={this.handlechange}></input>
                 <DatePicker
         selected={this.state.startDate}
         onChange={this.handleDateChange}/>
@@ -71,18 +76,22 @@ export class list extends Component {
             
                 {this.state.listArray.length ? this.state.listArray.map((list) => {
                       return(
-                          <div key={list.title}>
+                          <div key={list._id}>
                         <input type="radio" onClick={()=>this.setState({isRadio: !this.state.isRadio})
                         } name="gender" />
                         <MDBBtn color="primary">
        { list.title  } <MDBBadge color="danger" className="ml-2">{list.dueDate}</MDBBadge>
-        <span className="sr-only">unr</span>
+        
       </MDBBtn>
-      <MDBBtn onClick={()=>this.handleDel(todo._id)}>X</MDBBtn>
+      <MDBBtn onClick={()=>this.handleDel(list._id,list.title)}>X</MDBBtn>
+      
                         </div>
+                        
                   )
+                 
                   
                 }): <p>NO TODO</p>}
+                 <p>{this.state.isPost ? <SpinnerPage/>   : null} </p>
           
             
 
@@ -90,5 +99,6 @@ export class list extends Component {
         )
     }
 }
+
 
 export default list
